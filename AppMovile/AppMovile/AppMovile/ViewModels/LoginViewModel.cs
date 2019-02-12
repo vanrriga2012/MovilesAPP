@@ -1,8 +1,5 @@
-﻿using GalaSoft.MvvmLight.Command;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Text;
+﻿using AppMovile.Views;
+using GalaSoft.MvvmLight.Command;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -10,81 +7,41 @@ namespace AppMovile.ViewModels
 {
     public class LoginViewModel : BaseViewModel
     {
-      
+    
 
         #region Attributes
         private string email;
         private string password;
         private bool isRunnig;
         private bool isEnabled;
+       
         #endregion
         #region Properties
         public string Email
         {
-            get;
-            set;
+            get { return this.email; }
+            set { SetValue(ref this.email, value); }
 
         }
         public string Password
         {
-            get
-            {
-                return password;
-            }
-            set
-            {
-                if (this.password != value)
-                {
-                    this.password = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(this.Password)));
-                }
-            }
+            get { return this.password; }
+            set { SetValue(ref password, value); }
         }
         public bool IsRunnig {
-            get
-            {
-                return isRunnig;
-            }
-            set
-            {
-                if (this.isRunnig != value)
-                {
-                    this.isRunnig = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(this.IsRunnig)));
-                }
-            }
+            get { return isRunnig; }
+            set { SetValue(ref isRunnig, value); }
         }
         public bool IsEnabled {
-            get
-            {
-                return isEnabled;
-            }
-            set
-            {
-                if (this.isEnabled != value)
-                {
-                    this.isEnabled = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(this.IsEnabled)));
-                }
-            }
+            get { return isEnabled; }
+            set { SetValue(ref isEnabled, value); }
         }
+
         public bool IsRemember {
-            get
-            {
-                return IsRemember;
-            }
-            set
-            {
-                if (this.IsRemember != value)
-                {
-                    this.IsRemember = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(this.IsRemember)));
-                }
-            }
-        }
-      
-      
-       
+            get;
+            set; }
+
+
         #endregion
         #region Commands
         public ICommand LoginCommand
@@ -116,14 +73,15 @@ namespace AppMovile.ViewModels
                 this.IsRunnig = false;
                 await Application.Current.MainPage.DisplayAlert("Error", "Email o Contraseña Incorrecta", "Aceptar");
                 this.Password = string.Empty;
+                this.Email = string.Empty;
                 return;
             }
-            else
-            {
-                this.IsEnabled = true;
-                this.isRunnig = false;
-                await Application.Current.MainPage.DisplayAlert("Ok", "Login", "Aceptar");
-            }
+            isRunnig = false;
+            IsEnabled = true;
+            this.Password = string.Empty;
+            this.Email = string.Empty;
+            MainViewModel.GetInstance().Lands = new LandsViewModel();
+            await Application.Current.MainPage.Navigation.PushAsync(new LandsPage());
 
             #endregion
             #region Constructors
@@ -132,6 +90,8 @@ namespace AppMovile.ViewModels
         {
             this.IsRemember = true;
             this.isEnabled = true;
+            this.Email = "paul_barriga@hotmail.com";
+            this.password = "1234";
 
         }
         #endregion
