@@ -14,7 +14,7 @@ namespace AppMovile.Views
 	{
 		public LandsPage ()
 		{
-			InitializeComponent ();
+			
 		}
 	}
 }

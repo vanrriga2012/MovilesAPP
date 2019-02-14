@@ -4,11 +4,37 @@ using System.Collections.Generic;
 using System.Net.Http;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
+using Plugin.Connectivity;
 
 namespace AppMovile.Services
 {
     public class ApiServices
     {
+        public async Task<Response> CheckConnection()
+        {
+            if (!CrossConnectivity.Current.IsConnected)
+            {
+                return new Response
+                {
+                    IsSucces = false,
+                    Message = "Por favor activa tu configuracion de Internet"
+                };
+            }
+            var isReachable = await CrossConnectivity.Current.IsRemoteReachable("google.com");
+            if(!isReachable)
+            {
+                return new Response
+                {
+                    IsSucces = false,
+                    Message = "Revisar tu conexion a Internet"
+                };
+            }
+            return new Response
+            {
+                IsSucces = true,
+                Message = "Ok"
+            };
+        }
         public async Task<Response> GetList<T>(string urlBase, string serviceprefix, string controller)
         {
             try

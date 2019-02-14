@@ -24,7 +24,7 @@ namespace AppMovile.Models
         public List<string> CallingCodes { get; set; }
 
         [JsonProperty(PropertyName = "capital")]
-        public string capital { get; set; }
+        public string Capital { get; set; }
 
         [JsonProperty(PropertyName = "altSpellings")]
         public List<object> AltSpellings { get; set; }
